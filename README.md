@@ -6,7 +6,7 @@ This program enables you to create the formula you need to convert your raw data
 
 You'll need to input the name of the tablet you're going to UPDATING or INSERT INTO your data, how many columns you're inserting in your query or updating, the type of query your'e doing and on which language your Microsoft Excel program is (Formula syntax changes depending on it) and after you click Create Formula the formula should be in your Clipboard.
 
-##Considerations
+## Considerations
 - You should only use this program to create the formula for the first row and then copy that cell so the row number changes depending on the row instead of staying in the first row.
 - The validation in the program prevents treating NULL as a string and assigning the actual NULL value to the column.
 - For the meantime the program only works on Spanish and English but you can manually change the keywords on the formula to match your language.
