@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
@@ -117,14 +118,23 @@ namespace Query_Creator_for_Excel
                     //Checks for NULL to prevent issues of treating it as as String
                     if (validateNULL.Checked)
                     {
-                        if (language.SelectedIndex == 0)
-                            query += $"SI(IGUAL({columns[i]}2,\"NULL\"),\"NULL\",CONCATENAR(\"'\",{columns[i]}2,\"'\")),";
+                        if(!emptyAsNULL.Checked)
+                            if (language.SelectedIndex == 0)
+                                query += $"SI(IGUAL({columns[i]}2,\"NULL\"),\"NULL\",CONCATENAR(\"'\",{columns[i]}2,\"'\")),";
+                            else
+                                query += $"IF(EXACT({columns[i]}2,\"NULL\"),\"NULL\",CONCATENATE(\"'\",{columns[i]}2,\"'\")),";
                         else
-                            query += $"IF(EXACT({columns[i]}2,\"NULL\"),\"NULL\",CONCATENATE(\"'\",{columns[i]}2,\"'\")),";
+                            if (language.SelectedIndex == 0)
+                            query += $"SI(O(IGUAL({columns[i]}2,\"NULL\"),ESBLANCO({columns[i]}2)),\"NULL\",CONCATENAR(\"'\",{columns[i]}2,\"'\")),";
+                        else
+                            query += $"IF(OR(EXACT({columns[i]}2,\"NULL\"),ISBLANK({columns[i]}2)),\"NULL\",CONCATENATE(\"'\",{columns[i]}2,\"'\")),";
                     }
                     else
                     {
-                        query += "'\"," + columns[i] + "2,\"'";
+                        if(!emptyAsNULL.Checked)
+                            query += "'\"," + columns[i] + "2,\"'";
+                        else
+                            query += "'\"," + columns[i] + "2,\"'";
                     }
                 }
                 //adds the rest of the rows 
@@ -133,14 +143,23 @@ namespace Query_Creator_for_Excel
                     //Checks for NULL to prevent issues of treating it as as String
                     if (validateNULL.Checked)
                     {
-                        if (language.SelectedIndex == 0)
-                            query += $",\",\",SI(IGUAL({columns[i]}2,\"NULL\"),\"NULL\",CONCATENAR(\"'\",{columns[i]}2,\"'\")),";
+                        if (!emptyAsNULL.Checked)
+                            if (language.SelectedIndex == 0)
+                                query += $",\",\",SI(IGUAL({columns[i]}2,\"NULL\"),\"NULL\",CONCATENAR(\"'\",{columns[i]}2,\"'\")),";
+                            else
+                                query += $",\",\",IF(EXACT({columns[i]}2,\"NULL\"),\"NULL\",CONCATENATE(\"'\",{columns[i]}2,\"'\")),";
                         else
-                            query += $",\",\",IF(EXACT({columns[i]}2,\"NULL\"),\"NULL\",CONCATENATE(\"'\",{columns[i]}2,\"'\")),";
+                            if (language.SelectedIndex == 0)
+                                query += $",\",\",SI(O(IGUAL({columns[i]}2,\"NULL\"),ESBLANCO({columns[i]}2)),\"NULL\",CONCATENAR(\"'\",{columns[i]}2,\"'\")),";
+                        else
+                                query += $",\",\",IF(OR(EXACT({columns[i]}2,\"NULL\"),ISBLANK({columns[i]}2)),\"NULL\",CONCATENATE(\"'\",{columns[i]}2,\"'\")),";
                     }
                     else
                     {
-                        query += ",\",$" + columns[i] + "$1,\"='\"," + columns[i] + "2,\"'";
+                        if(!emptyAsNULL.Checked)
+                            query += ",\",$" + columns[i] + "$1,\"='\"," + columns[i] + "2,\"'";
+                        else
+                            query += ",\",$" + columns[i] + "$1,\"='\"," + columns[i] + "2,\"'";
                     }
                 }
                 first = false;

@@ -46,6 +46,7 @@
             this.instructionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.validateNULL = new System.Windows.Forms.CheckBox();
+            this.emptyAsNULL = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -203,7 +204,7 @@
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 294);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 324);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(548, 22);
             this.statusStrip1.TabIndex = 23;
@@ -221,11 +222,24 @@
             this.validateNULL.Text = "Validar NULL";
             this.validateNULL.UseVisualStyleBackColor = true;
             // 
+            // emptyAsNULL
+            // 
+            this.emptyAsNULL.AutoSize = true;
+            this.emptyAsNULL.Checked = true;
+            this.emptyAsNULL.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.emptyAsNULL.Location = new System.Drawing.Point(250, 289);
+            this.emptyAsNULL.Name = "emptyAsNULL";
+            this.emptyAsNULL.Size = new System.Drawing.Size(163, 17);
+            this.emptyAsNULL.TabIndex = 25;
+            this.emptyAsNULL.Text = "Espacios vacios como NULL";
+            this.emptyAsNULL.UseVisualStyleBackColor = true;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(548, 316);
+            this.ClientSize = new System.Drawing.Size(548, 346);
+            this.Controls.Add(this.emptyAsNULL);
             this.Controls.Add(this.validateNULL);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.columnLabel);
@@ -243,7 +257,7 @@
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.MaximumSize = new System.Drawing.Size(564, 355);
+            this.MaximumSize = new System.Drawing.Size(564, 385);
             this.MinimumSize = new System.Drawing.Size(564, 355);
             this.Name = "Main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -274,5 +288,6 @@
         private System.Windows.Forms.ToolStripMenuItem instructionsToolStripMenuItem;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.CheckBox validateNULL;
+        private System.Windows.Forms.CheckBox emptyAsNULL;
     }
 }
