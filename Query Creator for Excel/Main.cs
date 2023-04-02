@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Query_Creator_for_Excel.Properties;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Globalization;
@@ -49,6 +50,7 @@ namespace Query_Creator_for_Excel
                 noTableError = "No se ha capturado el nombre de la Tabla.";
                 this.Text = "Creador de Fórmulas de Query para Excel";
                 typeQuery.SelectedIndex = 0;
+                emptyAsNULL.Text = "Celdas vacías como NULL";
             }
             else
             {
@@ -164,7 +166,7 @@ namespace Query_Creator_for_Excel
                 }
                 first = false;
             }
-            query += "\")\")";
+            query += "\");\")";
             //This condition is to check if the formula is too long for Excel (Excel has a limit of 8192 characters)
             if (query.Length > 8192)
             {
@@ -228,7 +230,7 @@ namespace Query_Creator_for_Excel
             }
             
             //Adds the where condition based on the first column
-            query += "\" where \",$A$1,\"='\",A2,\"'";
+            query += "\" where \",$A$1,\"='\",A2,\"';";
             query += "\")";
 
             //This condition is to check if the formula is too long for Excel (Excel has a limit of 8192 characters)
