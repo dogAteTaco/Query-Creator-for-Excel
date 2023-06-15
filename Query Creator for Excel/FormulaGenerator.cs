@@ -11,6 +11,17 @@ namespace Query_Creator_for_Excel
 {
 	public class FormulaGenerator
 	{
+		public enum QueryType
+		{
+			Insert,
+			Update
+		}
+
+		public enum Language
+		{
+			EN,
+			ES
+		}
 		//Crea Abecedario para nombre de Columnas
 		private List<string> columns;
 
@@ -35,15 +46,15 @@ namespace Query_Creator_for_Excel
 					for (char c = 'A'; c <= 'Z'; c++)
 						columns.Add(letter + letter1 + c.ToString());
 		}
-		public string CreateInsertQuery(int langIndex,string tableName, int columnCount,bool validateNULL,bool emptyAsNULL)
+		public string CreateInsertQuery(Language lang,string tableName, int columnCount,bool validateNULL,bool emptyAsNULL)
 		{
 			bool first = true;
 			string query;
 			ResourceManager langMng;
 			//creates the columns part of the query
-			switch (langIndex)
+			switch (lang)
 			{
-				case 0:
+				case Language.ES:
 					langMng = new ResourceManager("Query_Creator_for_Excel.Properties.labels-es", Assembly.GetExecutingAssembly());
 					break;
 				default:
@@ -93,8 +104,8 @@ namespace Query_Creator_for_Excel
 					}
 					else
 					{
-						if (!emptyAsNULL)
-							query += $"\"'\",{columns[i]}2,\"'\"";
+						if (emptyAsNULL)
+							query += $"{langMng.GetString("If")}({langMng.GetString("IsBlank")}({columns[i]}2),\"NULL\",{langMng.GetString("Concatenate")}(\"'\",{columns[i]}2,\"'\"))";
 						else
 							query += $"\",{columns[i]}2,\"'";
 					}
@@ -114,8 +125,8 @@ namespace Query_Creator_for_Excel
 					}
 					else
 					{
-						if (!emptyAsNULL)
-							query += $",\",'\",{columns[i]}2,\"'\"";
+						if (emptyAsNULL)
+							query += $",\",\",{langMng.GetString("If")}({langMng.GetString("IsBlank")}({columns[i]}2),\"NULL\",{langMng.GetString("Concatenate")}(\"'\",{columns[i]}2,\"'\"))";
 
 						else
 							query += $",\",'\",{columns[i]}2,\"'\"";
@@ -138,15 +149,15 @@ namespace Query_Creator_for_Excel
 		}
 
 		//Creates formula for the Update
-		public string CreateUpdateQuery(int langIndex, string tableName, int columnCount, bool validateNULL, bool emptyAsNULL)
+		public string CreateUpdateQuery(Language lang, string tableName, int columnCount, bool validateNULL, bool emptyAsNULL)
 		{
 			bool first = true;
 			string query = "";
 			ResourceManager langMng;
 			//creates the columns part of the query
-			switch (langIndex)
+			switch (lang)
 			{
-				case 0:
+				case Language.ES:
 					langMng = new ResourceManager("Query_Creator_for_Excel.Properties.labels-es", Assembly.GetExecutingAssembly());
 					break;
 				default:
@@ -154,7 +165,7 @@ namespace Query_Creator_for_Excel
 					break;
 			}
 
-			if (langIndex==0)
+			if (lang==Language.ES)
 				query = "=CONCATENAR(";
 			else
 				query = "=CONCATENATE(";

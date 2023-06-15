@@ -94,7 +94,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algo.cs" />
     <Compile Include="FormulaGenerator.cs" />
     <Compile Include="Help.cs">
       <SubType>Form</SubType>

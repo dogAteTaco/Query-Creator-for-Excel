@@ -22,7 +22,7 @@ namespace Query_Creator_for_Excel
         public Main()
         {
             InitializeComponent();
-			
+			this.generator = new FormulaGenerator();
             //defaults the language for the UI and Excel
             this.SetupLanguage();
             //adds suggestions for the table name
@@ -70,10 +70,24 @@ namespace Query_Creator_for_Excel
             if (tableName.Text == "")
                 MessageBox.Show(noTableError, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             else
-                if (typeQuery.SelectedIndex == 1)
-                    query = generator.CreateInsertQuery(language.SelectedIndex,tableName.Text,Convert.ToInt32(columnCount.Text),validateNULL.Checked,emptyAsNULL.Checked);
-                else
-                    query = generator.CreateUpdateQuery(language.SelectedIndex, tableName.Text, Convert.ToInt32(columnCount.Text), validateNULL.Checked, emptyAsNULL.Checked);
+            {
+                FormulaGenerator.Language lang;
+                switch (language.SelectedIndex)
+                {
+                    case 0:
+                        lang = FormulaGenerator.Language.ES;
+                        break;
+                    default:
+                        lang = FormulaGenerator.Language.ES;
+                        break;
+                }
+
+				if (typeQuery.SelectedIndex == 1)
+					query = generator.CreateInsertQuery(lang, tableName.Text, Convert.ToInt32(columnCount.Text), validateNULL.Checked, emptyAsNULL.Checked);
+				else
+					query = generator.CreateUpdateQuery(lang, tableName.Text, Convert.ToInt32(columnCount.Text), validateNULL.Checked, emptyAsNULL.Checked);
+			}
+                
 
 			if (autCopy.Checked&&!query.Equals(""))
 				Clipboard.SetDataObject(query, true, 10, 100);
